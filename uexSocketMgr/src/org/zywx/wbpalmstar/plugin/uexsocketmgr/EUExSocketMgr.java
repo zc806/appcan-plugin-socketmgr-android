@@ -185,12 +185,17 @@ public class EUExSocketMgr extends EUExBase {
 
 			@Override
 			public void run() {
-				boolean result = object.sendData(inMsg);
-				if (object != null && checkSetting() && result) {
-
-					jsCallback(F_CALLBACK_NAME_SENDDATA,
-							Integer.parseInt(inOpCode), EUExCallback.F_C_INT,
-							EUExCallback.F_C_SUCCESS);
+				if (object != null) {
+					boolean result = object.sendData(inMsg);
+					if (checkSetting() && result) {
+						jsCallback(F_CALLBACK_NAME_SENDDATA,
+								Integer.parseInt(inOpCode),
+								EUExCallback.F_C_INT, EUExCallback.F_C_SUCCESS);
+					} else {
+						jsCallback(F_CALLBACK_NAME_SENDDATA,
+								Integer.parseInt(inOpCode),
+								EUExCallback.F_C_INT, EUExCallback.F_C_FAILED);
+					}
 				} else {
 					jsCallback(F_CALLBACK_NAME_SENDDATA,
 							Integer.parseInt(inOpCode), EUExCallback.F_C_INT,
